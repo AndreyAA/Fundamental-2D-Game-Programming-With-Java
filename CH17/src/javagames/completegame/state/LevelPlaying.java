@@ -73,24 +73,24 @@ public class LevelPlaying extends State {
 				laser.fire();
 			}
 			if (keys.keyDown(KeyEvent.VK_LEFT)) {
-				ship.rotateLeft(delta);
+				ship.left(delta);
 			}
 			if (keys.keyDown(KeyEvent.VK_RIGHT)) {
-				ship.rotateRight(delta);
+				ship.right(delta);
 			}
 			if (keys.keyDown(KeyEvent.VK_UP)) {
-				ship.setThrusting(true);
-				if (!thrusting) {
-					thruster.fire();
-					thrusting = true;
-				}
-			} else {
+				ship.up(delta);
+			}
+
+			if (keys.keyDown(KeyEvent.VK_DOWN)) {
+				ship.down(delta);
+			} /*else {
 				ship.setThrusting(false);
 				if (thrusting) {
 					thruster.done();
 					thrusting = false;
 				}
-			}
+			}*/
 		}
 	}
 

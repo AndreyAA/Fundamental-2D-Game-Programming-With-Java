@@ -11,7 +11,7 @@ public class Ship {
 	private float acceleration;
 	private float friction;
 	private float maxVelocity;
-	private float rotationDelta;
+	private float movingDelta;
 	private float curAcc;
 	private Vector2f position;
 	private Vector2f velocity;
@@ -30,7 +30,7 @@ public class Ship {
 	public Ship(PolygonWrapper wrapper) {
 		this.wrapper = wrapper;
 		friction = 0.25f;
-		rotationDelta = (float) Math.toRadians(180.0);
+		movingDelta = (float) (Math.PI * 0.1);
 		acceleration = 1.0f;
 		maxVelocity = 0.5f;
 		velocity = new Vector2f();
@@ -85,12 +85,20 @@ public class Ship {
 		this.position = position;
 	}
 
-	public void rotateLeft(float delta) {
-		angle += rotationDelta * delta;
+	public void left(float delta) {
+		position.x -= movingDelta * delta;
 	}
 
-	public void rotateRight(float delta) {
-		angle -= rotationDelta * delta;
+	public void right(float delta) {
+		position.x += movingDelta * delta;
+	}
+
+	public void up(float delta) {
+		position.y += movingDelta * delta;
+	}
+
+	public void down(float delta) {
+		position.y -= movingDelta * delta;
 	}
 
 	public void reset() {
