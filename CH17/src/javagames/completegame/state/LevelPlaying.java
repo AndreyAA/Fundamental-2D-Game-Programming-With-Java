@@ -8,10 +8,14 @@ import javagames.completegame.object.*;
 import javagames.completegame.object.Asteroid.Size;
 import javagames.util.*;
 
+import static javagames.completegame.admin.GameConstants.STARS_DELAY;
+
 public class LevelPlaying extends State {
-	
+	private static int tick = 0;
+
 	private ArrayList<AsteroidExplosion> explosions;
 	private ArrayList<Asteroid> asteroids;
+	private LinkedList<Star> stars;
 	private ArrayList<Bullet> bullets;
 	private double respawn = 0.0;
 	private Sprite background;
@@ -31,6 +35,7 @@ public class LevelPlaying extends State {
 
 	public LevelPlaying(GameState state) {
 		this.state = state;
+		tick = 0;
 	}
 
 	@Override
@@ -48,6 +53,7 @@ public class LevelPlaying extends State {
 		ship.setAngle((float) Math.toRadians(90));
 		explosions = new ArrayList<AsteroidExplosion>();
 		asteroids = new ArrayList<Asteroid>();
+		stars = new LinkedList<Star>();
 		bullets = new ArrayList<Bullet>();
 		// generate random
 		for (int i = 0; i < state.getLevel(); ++i) {
@@ -96,13 +102,16 @@ public class LevelPlaying extends State {
 
 	@Override
 	public void updateObjects(float delta) {
+		tick++;
 		updateAsteroids(delta);
+		updateStars(delta);
 		updateBullets(delta);
 		updateShip(delta);
 		updateAsteroidExplosions(delta);
 		updateShipExplosion(delta);
 		checkForLevelWon();
 	}
+
 
 	private void updateShip(float delta) {
 		if (shouldRespawn()) {
@@ -133,6 +142,15 @@ public class LevelPlaying extends State {
 		for (Asteroid a : asteroids) {
 			a.update(delta);
 		}
+	}
+
+
+	private void updateStars(float delta) {
+		if (tick % STARS_DELAY == 0) {
+			stars.add(factory.createStar());
+		}
+		stars.forEach(s -> s.update(delta));
+		stars.removeIf(Star::isOutOfWorld);
 	}
 
 	private void updateBullets(float delta) {
@@ -223,6 +241,7 @@ public class LevelPlaying extends State {
 	@Override
 	public void render(Graphics2D g, Matrix3x3f view) {
 		background.render(g, view);
+		stars.forEach(s -> s.draw(g, view));
 		ship.draw(g, view);
 		for (Asteroid a : asteroids) {
 			a.draw(g, view);

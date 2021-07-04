@@ -113,4 +113,9 @@ public class AsteroidFactory {
 	private Asteroid getRandomAsteroid(List<Asteroid> asteroids) {
 		return asteroids.get(rand.nextInt(asteroids.size()));
 	}
+
+	public Star createStar() {
+		return new Star(new Vector2f(worldWidth, rand.nextFloat()*worldWidth - worldWidth/2),
+				(float) (rand.nextFloat() + 0.5));
+	}
 }
