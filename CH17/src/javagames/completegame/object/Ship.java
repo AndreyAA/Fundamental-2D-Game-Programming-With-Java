@@ -160,7 +160,7 @@ public class Ship {
 		float slowDown = 1.0f - friction * time;
 		velocity = velocity.mul(slowDown);
 		position = position.add(velocity.mul(time));
-		position = wrapper.wrapPosition(position);
+		position = wrapper.lockOnScreen(position);
 	}
 
 	private Vector2f[] transform(Vector2f[] poly, Matrix3x3f mat) {

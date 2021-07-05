@@ -145,4 +145,19 @@ public class PolygonWrapper {
 		}
 		return copy;
 	}
+
+	public Vector2f lockOnScreen(Vector2f position) {
+		Vector2f wrapped = new Vector2f(position);
+		if (position.x <= worldMin.x) {
+			wrapped.x = worldMin.x;
+		} else if (position.x > worldMax.x) {
+			wrapped.x = worldMax.x;
+		}
+		if (position.y < worldMin.y) {
+			wrapped.y = worldMin.y;
+		} else if (position.y > worldMax.y) {
+			wrapped.y = worldMax.y;
+		}
+		return wrapped;
+	}
 }
